@@ -1,19 +1,31 @@
-import NextLink from 'next/link'
-import type { NextPage } from "next";
-import { Button, Container, Flex, Heading, Image, Stack } from '@chakra-ui/react';
+import React, { useEffect, useState } from "react";
+import Homepage from "../components/Homepage";
+import SignIn from "../components/SignIn";
+import SignUp from "../components/SignUp";
+import { auth } from "./firebase";
+import { Box, Flex } from "@chakra-ui/react";
+import { Navbar } from "../components/Navbar";
 
-const Home: NextPage = () => {
+const Home = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setIsAuthenticated(!!user);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
-    <Container maxW={"1200px"}>
-      <Flex h={"80vh"} alignItems={"center"} justifyContent={"center"}>
-        <Stack spacing={4} align={"center"}>
-          <Heading>Marketplace</Heading>
-          <Button
-             as={NextLink} href='/buy'
-          >Shop NFTs</Button>
-        </Stack>
-      </Flex>
-    </Container>
+    <>
+      {/* <Navbar /> */}
+      <Box bg="#f8f8f8">
+        <Flex justifyContent="center" alignItems="center" h="calc(100vh - 64px)">
+          {isAuthenticated ? <Homepage /> : <SignIn />}
+        </Flex>
+      </Box>
+    </>
   );
 };
 

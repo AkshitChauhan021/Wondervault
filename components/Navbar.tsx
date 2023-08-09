@@ -1,3 +1,4 @@
+// This is NavBar
 import { Avatar, Box, Flex, Heading, Link, Text } from "@chakra-ui/react";
 import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
 import NextLink from 'next/link';
